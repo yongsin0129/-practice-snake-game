@@ -1,6 +1,7 @@
-// import Food from './modules/Food'
-// import Score from './modules/Score'
-// import Snake from './modules/Snake'
+import Food from './modules/Food'
+import Score from './modules/Score'
+import Snake from './modules/Snake'
+import GameControl from './modules/GameControl'
 
 /********************************************************************************
 *
@@ -8,9 +9,9 @@
 browser 現在還不支援 import export 寫法，需要在檔名後面加 js
 *
 *********************************************************************************/
-import Food from './modules/Food.js'
-import Score from './modules/Score.js'
-import Snake from './modules/Snake.js'
+// import Food from './modules/Food.js'
+// import Score from './modules/Score.js'
+// import Snake from './modules/Snake.js'
 
 /********************************************************************************
 *
@@ -43,3 +44,10 @@ snake.addBody()
 snake.addBody()
 snake.addBody()
 console.log('snake body length : ', snake.body.length)
+
+/********************************************************************************
+*
+          測試 GameControl 代碼
+*
+*********************************************************************************/
+const gameControl = new GameControl()

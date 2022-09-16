@@ -1,0 +1,100 @@
+  /********************************************************************************
+  *
+            最終解法
+  *
+  *********************************************************************************/
+  <script type="importmap">
+    {
+      "imports": {
+        "./modules/Food": "./modules/Food.js",
+        "./modules/Score": "./modules/Score.js",
+        "./modules/Snake": "./modules/Snake.js"
+      }
+    }
+  </script>
+
+  <script type=module src="./index.js"></script>
+
+  如果是 HTML 與 js 跨資料夾，就不能用相對路徑，用 / 絕對路徑
+
+    <script type="importmap">
+    {
+      "imports": {
+        "/dist/modules/Food": "/dist/modules/Food.js",
+        "/dist/modules/Score": "/dist/modules/Score.js",
+        "/dist/modules/Snake": "/dist/modules/Snake.js",
+        "/dist/modules/GameControl": "/dist/modules/GameControl.js"
+
+      }
+    }
+  </script>
+
+  /********************************************************************************
+  *
+            解法說明
+  *
+  *********************************************************************************/
+  因為 typeScript 只能用 import 的方法，不能用 require
+  使用 importmap 做一個對照表，
+  雖然現在的瀏覽器看的懂 import 語法，但載入的路徑必須是檔案的絕對路徑，沒辦法像 node.js 一樣可以自動尋找
+  不過 firefox 目前最版版本 92-93 沒有支援 
+
+  /********************************************************************************
+  *
+            參考資料的例子
+  *
+  *********************************************************************************/
+import map 的規格在這：https://github.com/WICG/import-maps
+各家瀏覽器支援性 : https://beginor.github.io/2021/08/16/using-es-modules-in-borwser-with-importmaps.html
+
+簡單來說呢，import map 想解決的問題很簡單，就是現在雖然瀏覽器已經支援 module 跟 import 了，但你還是沒辦法在瀏覽器上這樣做：
+
+
+import moment from "moment";
+import { partition } from "lodash";
+你只能寫一個路徑之類的：
+
+
+import moment from "/node_modules/moment/src/moment.js";
+import { partition } from "/node_modules/lodash-es/lodash.js";
+而 import map 的解法是引入一個對照表，就可以只用名稱來引入：
+
+<script type="importmap">
+{
+  "imports": {
+    "moment": "/node_modules/moment/src/moment.js",
+    "lodash": "/node_modules/lodash-es/lodash.js"
+  }
+}
+</script>
+
+
+  /********************************************************************************
+  *
+            額外補充
+  *
+  *********************************************************************************/
+  <script> 能接受的 type
+  {
+    "application/ecmascript",
+    "application/javascript",
+    "application/x-ecmascript",
+    "application/x-javascript",
+    "text/ecmascript",
+    "text/javascript",
+    "text/javascript1.0",
+    "text/javascript1.1",
+    "text/javascript1.2",
+    "text/javascript1.3",
+    "text/javascript1.4",
+    "text/javascript1.5",
+    "text/jscript",
+    "text/livescript",
+    "text/x-ecmascript",
+    "text/x-javascript",
+    module
+    importmap
+    speculationrules
+    webbundle
+};
+
