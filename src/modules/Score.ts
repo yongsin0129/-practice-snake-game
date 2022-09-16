@@ -11,7 +11,7 @@ class Score {
   maxLevel: number
   scoreToLevelUp: number
 
-  constructor (maxLevel = 100, scoreToLevelUp = 10) {
+  constructor (maxLevel = 100, scoreToLevelUp = 5) {
     this.scoreEle = document.querySelector('#score') as HTMLElement
     this.levelEle = document.querySelector('#level') as HTMLElement
     this.maxLevel = maxLevel

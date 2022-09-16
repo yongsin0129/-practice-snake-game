@@ -19,7 +19,10 @@ class Snake {
   }
 
   set X (value: number) {
-    this.head.style.left = (value * 10).toString() + 'px'
+    if (value < 0 || value > 290) {
+      throw new Error('Game Over')
+    }
+    this.head.style.left = value.toString() + 'px'
   }
 
   get Y (): number {
@@ -27,16 +30,15 @@ class Snake {
   }
 
   set Y (value: number) {
-    this.head.style.top = (value * 10).toString() + 'px'
+    if (value < 0 || value > 290) {
+      throw new Error('Game Over')
+    }
+    this.head.style.top = value.toString() + 'px'
   }
 
   addBody (): void {
     this.head.insertAdjacentHTML('afterend', '<div></div>')
     this.body = document.querySelectorAll('#snake > div')
-  }
-
-  sayPosition (): void {
-    console.log('snake position x : ', this.X, ' y : ', this.Y)
   }
 }
 

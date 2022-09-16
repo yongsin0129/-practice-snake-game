@@ -6,24 +6,71 @@ class GameControl {
   food: Food
   score: Score
   snake: Snake
-  direction: string
+  direction = 'ArrowRight'
+  isLive = true
+  snakeRunTimer: any
 
   constructor () {
     this.food = new Food()
     this.score = new Score()
     this.snake = new Snake()
+    this.snakeRunTimer = {}
     this.init()
-    this.direction = ''
   }
 
   init (): void {
     // 將現在這個 this (gameControl) 綁到 handleKeyDown fn 裡面
     addEventListener('keydown', this.handleKeyDown.bind(this))
+    this.snakeRunTimer = setTimeout(this.run.bind(this), 200)
   }
 
   handleKeyDown (evert: KeyboardEvent): void {
     console.log(evert.key)
-    this.direction = evert.key
+    switch (evert.key) {
+      case 'ArrowUp':
+      case 'ArrowDown':
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        this.direction = evert.key
+        break
+    }
+  }
+
+  run (): void {
+    try {
+      switch (this.direction) {
+        case 'ArrowUp':
+          this.snake.Y -= 10
+          break
+        case 'ArrowDown':
+          this.snake.Y += 10
+          break
+        case 'ArrowLeft':
+          this.snake.X -= 10
+          break
+        case 'ArrowRight':
+          this.snake.X += 10
+          break
+      }
+      clearTimeout(this.snakeRunTimer)
+      this.snakeRunTimer = setTimeout(
+        this.run.bind(this),
+        200 - (this.score.level - 1) * 20
+      )
+    } catch (e) {
+      window.alert((e as any).message)
+      this.isLive = false
+      window.clearInterval(this.snakeRunTimer)
+    }
+
+    this.checkGetFood(this.snake.X, this.snake.Y)
+  }
+
+  checkGetFood (X: number, Y: number): void {
+    if (this.food.X === X && this.food.Y === Y) {
+      this.food.change()
+      this.score.addScore()
+    }
   }
 }
 
