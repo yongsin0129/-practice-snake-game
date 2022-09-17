@@ -7,7 +7,6 @@ class GameControl {
   score: Score
   snake: Snake
   direction = 'ArrowRight'
-  isLive = true
   snakeRunTimer: any
 
   constructor () {
@@ -18,14 +17,7 @@ class GameControl {
     this.init()
   }
 
-  init (): void {
-    // 將現在這個 this (gameControl) 綁到 handleKeyDown fn 裡面
-    addEventListener('keydown', this.handleKeyDown.bind(this))
-    this.snakeRunTimer = setTimeout(this.run.bind(this), 200)
-  }
-
   handleKeyDown (evert: KeyboardEvent): void {
-    console.log(evert.key)
     switch (evert.key) {
       case 'ArrowUp':
       case 'ArrowDown':
@@ -36,8 +28,17 @@ class GameControl {
     }
   }
 
+  checkGetFood (X: number, Y: number): void {
+    if (this.food.X === X && this.food.Y === Y) {
+      this.food.change()
+      this.score.addScore()
+      this.snake.addBody()
+    }
+  }
+
   run (): void {
     try {
+      // 蛇頭移動
       switch (this.direction) {
         case 'ArrowUp':
           this.snake.Y -= 10
@@ -59,18 +60,16 @@ class GameControl {
       )
     } catch (e) {
       window.alert((e as any).message)
-      this.isLive = false
       window.clearInterval(this.snakeRunTimer)
     }
 
     this.checkGetFood(this.snake.X, this.snake.Y)
   }
 
-  checkGetFood (X: number, Y: number): void {
-    if (this.food.X === X && this.food.Y === Y) {
-      this.food.change()
-      this.score.addScore()
-    }
+  init (): void {
+    // 將現在這個 this (gameControl) 綁到 handleKeyDown fn 裡面
+    addEventListener('keydown', this.handleKeyDown.bind(this))
+    this.snakeRunTimer = setTimeout(this.run.bind(this), 200)
   }
 }
 
